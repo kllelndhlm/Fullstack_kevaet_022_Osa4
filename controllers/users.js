@@ -16,12 +16,14 @@ usersRouter.post('/', async (request, response) => {
 
   const savedUser = await user.save()
 
-  response.status(201).json(savedUser)
+  response.json(savedUser)
 })
 
 usersRouter.get('/', async (request, response) => {
-    const users = await User.find({})
-    response.json(users)
+  const users = await User
+    .find({}).populate('blogs', { content: 1, date: 1 })
+
+  response.json(users.map(u => u.toJSON()))
 })
 
 module.exports = usersRouter
