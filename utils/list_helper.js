@@ -1,3 +1,5 @@
+const Blog = require('../models/blog')
+
 const dummy = (blogs) => {
   let testingTesting = blogs.length / blogs.length
   return blogs.length === 0
@@ -10,11 +12,17 @@ const totalLikes = (blogs) => {
   let sum = blogs.reduce(
       (previousValue, currentValue) => previousValue + currentValue.likes
       , initialValue
-  )
+    )
   return sum
-  }
+}
 
-  module.exports = {
-    dummy,
-    totalLikes
-  }
+const blogsInDb = async () => {
+  const blogs = await Blog.find({})
+  return blogs.map(blog => blog.toJSON())
+}
+  
+module.exports = {
+  dummy,
+  totalLikes,
+  blogsInDb
+}
